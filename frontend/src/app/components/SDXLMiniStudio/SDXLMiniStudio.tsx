@@ -26,7 +26,7 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
     const [fileData, setFileData] = React.useState('');
     const [fileName, setFileName] = React.useState('');
 
-    const handleGenerateParametersChange = (value, field) => {    
+    const handleGenerateParametersChange = (value, field) => {
         setGenerateParameters(prevState => ({
             ...prevState,
             [field]: value,
@@ -83,7 +83,12 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                         </Card>
                     </FlexItem>
                     <FlexItem flex={{ default: 'flex_3' }}>
-                        <DocumentRenderer fileData={fileData} fileName={fileName} />
+                        <Card component="div">
+                            <CardTitle>Generated Image</CardTitle>
+                            <CardBody>
+                                <DocumentRenderer fileData={fileData} fileName={fileName} />
+                            </CardBody>
+                        </Card>
                     </FlexItem>
                 </Flex>
             </PageSection>
