@@ -7,7 +7,9 @@ type DocumentRendererProps = {
 
 const DocumentRenderer: React.FC<DocumentRendererProps> = ({ fileData, fileName }) => {
     if (fileName !== '') {
-        return <img src={`data:${fileName};base64,${fileData}`} alt="image" />;
+        const extension = fileName.split('.').pop()?.toLowerCase();
+        const mimeType = extension === 'png' ? 'image/png' : `image/${extension}`;
+        return <img src={`data:${mimeType};base64,${fileData}`} alt="image" />;
     } else {
         return <p>Waiting for an image...</p>;
     }
