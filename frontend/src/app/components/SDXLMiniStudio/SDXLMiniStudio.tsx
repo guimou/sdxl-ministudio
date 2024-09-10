@@ -37,7 +37,7 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
         event.preventDefault();
         console.log('Generate image with prompt:', generateParameters.prompt);
         Emitter.emit('notification', { variant: 'success', title: '', description: 'Generation started! Please wait...' });
-        axios.post(`${config.backend_api_url}/generate`, generateParameters)
+        axios.post(`${config.backend_api_url}/generate`, generateParameters, { responseType: 'arraybuffer' })
             .then((response) => {
                 setFileName(response.headers['content-disposition'].split('filename=')[1].replace(/"/g, ''));
                 const binary = new Uint8Array(response.data);

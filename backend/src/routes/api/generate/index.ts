@@ -41,9 +41,6 @@ export default async (fastify: FastifyInstance): Promise<void> => {
       } else {
         reply.status(500).send({ error: 'No image data found' });
       }
-
-      console.log('Generate', prompt);
-      reply.send({ message: 'Generation started' });
     } catch (error) {
       console.error('Error generating image', error);
       reply.code(500).send({ message: error });
