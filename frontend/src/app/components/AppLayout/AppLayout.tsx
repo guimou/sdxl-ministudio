@@ -461,7 +461,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         <MastheadBrand>
           <Brand src={logo} alt="Patternfly Logo" heights={{ default: '36px' }} />
           <TextContent>
-            <Text component={TextVariants.h2} className='title-text'>Tools &amp; Extensions Companion</Text>
+            <Text component={TextVariants.h2} className='title-text'>SDXL Mini Studio</Text>
           </TextContent>
         </MastheadBrand>
       </MastheadMain>

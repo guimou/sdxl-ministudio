@@ -2,10 +2,8 @@ import { NotFound } from '@app/components/NotFound/NotFound';
 import { useDocumentTitle } from '@app/utils/useDocumentTitle';
 import * as React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, useLocation } from 'react-router-dom';
-import Buckets from './components/Buckets/Buckets';
-import ObjectBrowser from './components/ObjectBrowser/ObjectBrowser';
+import SDXLMiniStudio from './components/SDXLMiniStudio/SDXLMiniStudio';
 import SettingsManagement from './components/Settings/Settings';
-import VramEstimator from './components/VramEstimator/VramEstimator';
 
 
 let routeFocusTimer: number;
@@ -33,40 +31,20 @@ export type AppRouteConfig = IAppRoute | IAppRouteGroup;
 
 const routes: AppRouteConfig[] = [
   {
-    label: 'S3 Tools',
+    label: 'SDXL Mini Studio',
     isExpanded: true,
     routes: [
       {
-        component: ObjectBrowser,
+        component: SDXLMiniStudio,
         exact: true,
-        label: 'Object Browser',
-        path: '/objects/:bucketName/:prefix?',
-        title: 'Object Browser',
-      },
-      {
-        component: Buckets,
-        exact: true,
-        label: 'Bucket Management',
-        path: '/buckets',
-        title: 'Bucket Management',
+        label: 'Studio',
+        path: '/sdxlministudio',
+        title: 'Studio',
       },
     ],
   },
   {
-    label: 'GPU Tools',
-    isExpanded: true,
-    routes: [
-      {
-        component: VramEstimator,
-        exact: true,
-        label: 'VRAM Estimator',
-        path: '/gpu/vram-estimator',
-        title: 'VRAM Estimator',
-      },
-    ],
-  },
-  {
-    component: () => <Redirect to="/objects/:bucketName/:prefix?" />,
+    component: () => <Redirect to="/sdxlministudio" />,
     exact: true,
     path: '/',
     title: 'Redirect',
@@ -79,7 +57,7 @@ const routes: AppRouteConfig[] = [
     title: 'Settings',
   },
   {
-    component: () => <Redirect to="/objects/:bucketName/:prefix?" />,
+    component: () => <Redirect to="/sdxlministudio" />,
     path: '*',
     title: 'Redirect',
   },

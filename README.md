@@ -1,42 +1,12 @@
-# Open Data Hub Tools &amp; Extensions Companion
+# Open Data Hub SDXL Mini Studio
 
-This application implements tools that can be useful to anyone working with Open Data Hub (ODH), Red Hat OpenShift AI (RHOAI), or even locally with Podman.
+This application is a basic to interact with an SDXL model served using OpenShift AI.
 
 ## Current Features
 
-### S3 Tools
-
-- S3 Buckets Management: browsing, creation, deletion
-- S3 Objects Browser:
-  - Single file upload, Multiple files uploads, Downloads
-  - File preview
-  - Model import from HuggingFace
-
-### GPU Tools
-
-- VRAM Estimator: helps you calculate the VRAM and number of GPUs you need for inference and training.
-
-### Settings and validations
-
-- S3 connection testing
-- HuggingFace authentication testing
+### Studio
 
 ## Screenshots
-
-Bucket Management:
-![bucket-management](img/bucket-management.png)
-
-Single File Upload to S3:
-![upload-single](img/upload-single.png)
-
-Multiple File Uploads to S3:
-![multiple-upload](img/multiple-upload.png)
-
-Model Import from HuggingFace:
-![import-hf](img/import-hf.png)
-
-VRAM Estimator:
-![vram-estimator](img/vram-estimator.png)
 
 ## Deployment
 
