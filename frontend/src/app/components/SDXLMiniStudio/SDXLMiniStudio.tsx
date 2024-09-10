@@ -2,6 +2,7 @@ import config from '@app/config';
 import * as React from 'react';
 import axios from 'axios';
 import Emitter from '../../utils/emitter';
+import DocumentRenderer from '../DocumentRenderer/DocumentRenderer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBucket, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Page, PageSection, Text, TextContent, TextVariants, Flex, FlexItem, TextInput, Button, Card, Modal, Form, FormGroup, CardTitle, CardBody, TextArea, ActionGroup } from '@patternfly/react-core';
@@ -22,6 +23,8 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
 
     const [prompt, setPrompt] = React.useState<string>('');
     const [generateParameters, setGenerateParameters] = React.useState<GenerateParameters>(new GenerateParameters(prompt));
+    const [fileData, setFileData] = React.useState('');
+    const [fileName, setFileName] = React.useState('');
 
     const handleGenerateParametersChange = (value, field) => {    
         setGenerateParameters(prevState => ({
@@ -33,9 +36,16 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
     const handleGenerateImage = (event) => {
         event.preventDefault();
         console.log('Generate image with prompt:', generateParameters.prompt);
+        Emitter.emit('notification', { variant: 'success', title: '', description: 'Generation started! Please wait...' });
         axios.post(`${config.backend_api_url}/generate`, generateParameters)
             .then((response) => {
-                Emitter.emit('notification', { variant: 'success', title: '', description: 'Generation started! Please wait...' });
+                setFileName(response.headers['content-disposition'].split('filename=')[1].replace(/"/g, ''));
+                const binary = new Uint8Array(response.data);
+                const data = btoa(
+                    binary.reduce((data, byte) => data + String.fromCharCode(byte), '')
+                );
+                setFileData(data);
+                Emitter.emit('notification', { variant: 'success', title: '', description: 'Image generated!' });
             })
             .catch((error) => {
                 Emitter.emit('notification', { variant: 'warning', title: '', description: 'Connection failed with the error: ' + error.response.data.message.Code });
@@ -58,8 +68,8 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                 <Form onSubmit={handleGenerateImage}>
                                     <FormGroup label="Prompt" isRequired fieldId="prompt">
                                         <TextArea
-                                            id="ta-prompt"
-                                            name="ta-prompt"
+                                            id="prompt"
+                                            name="prompt"
                                             aria-label="prompt"
                                             placeholder="Describe what you want to generate"
                                             onChange={(_event, value) => handleGenerateParametersChange(value, 'prompt')}
@@ -73,7 +83,7 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                         </Card>
                     </FlexItem>
                     <FlexItem flex={{ default: 'flex_3' }}>
-                        Item 2
+                        <DocumentRenderer fileData={fileData} fileName={fileName} />
                     </FlexItem>
                 </Flex>
             </PageSection>
