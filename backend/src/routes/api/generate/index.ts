@@ -5,19 +5,27 @@ import { getInferencingEndpoint } from '../../../utils/config';
 
 export default async (fastify: FastifyInstance): Promise<void> => {
   fastify.post('/', async (req: FastifyRequest, reply: FastifyReply) => {
-    const { prompt } = req.body as any;
+    const {
+      prompt,
+      guidance_scale,
+      num_inference_steps,
+      crops_coords_top_left,
+      width,
+      height,
+      denoising_limit,
+    } = req.body as any;
     try {
       // Prepare the request data with your prompt
       const data = {
         instances: [
           {
             prompt: prompt,
-            guidance_scale: 8.0,
-            num_inference_steps: 50,
-            crops_coords_top_left: [256, 0],
-            width: 1216,
-            height: 832,
-            denoising_limit: 0.8,
+            guidance_scale: guidance_scale,
+            num_inference_steps: num_inference_steps,
+            crops_coords_top_left: crops_coords_top_left,
+            width: width,
+            height: height,
+            denoising_limit: denoising_limit,
           },
         ],
       };
