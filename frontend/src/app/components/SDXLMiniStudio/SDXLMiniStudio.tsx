@@ -5,9 +5,10 @@ import Emitter from '../../utils/emitter';
 import DocumentRenderer from '../DocumentRenderer/DocumentRenderer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBucket, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Page, PageSection, Text, TextContent, TextVariants, Flex, FlexItem, TextInput, Button, Card, Modal, Form, FormGroup, CardTitle, CardBody, TextArea, ActionGroup, FormSelect, FormSelectOption, Slider, SliderOnChangeEvent } from '@patternfly/react-core';
-import { SearchIcon } from '@patternfly/react-icons';
+import { Page, PageSection, Text, TextContent, TextVariants, Flex, FlexItem, TextInput, Button, Card, Modal, Form, FormGroup, CardTitle, CardBody, TextArea, ActionGroup, FormSelect, FormSelectOption, Slider, SliderOnChangeEvent, Popover } from '@patternfly/react-core';
+import { HelpIcon, SearchIcon } from '@patternfly/react-icons';
 import { Table, Thead, Tr, Th, Tbody, Td } from '@patternfly/react-table';
+import styles from '@patternfly/react-styles/css/components/Form/form';
 
 interface SDXLMiniStudioProps { }
 
@@ -169,7 +170,35 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                             <CardTitle>Parameters</CardTitle>
                             <CardBody>
                                 <Form onSubmit={handleGenerateImage}>
-                                    <FormGroup label="Prompt" fieldId="prompt">
+                                    <FormGroup
+                                        label="Prompt"
+                                        fieldId="prompt"
+                                        labelIcon={
+                                            <Popover
+                                              headerContent={
+                                                <div>
+                                                  The description of the image to generate.
+                                                </div>
+                                              }
+                                              bodyContent={
+                                                <div>
+                                                    <p>Describe what you want to generate.</p>
+                                                    <p>For example, "A beautiful sunset over the ocean with a sailboat in the distance".</p>
+                                                    <p>Here is a <a href="https://blog.segmind.com/prompt-guide-for-stable-diffusion-xl-crafting-textual-descriptions-for-image-generation/" target="_blank" rel="noreferrer">full guide</a> for Stable Diffusion XL prompting.</p>                                                 
+                                                </div>
+                                              }
+                                            >
+                                              <button
+                                                type="button"
+                                                aria-label="More info for name field"
+                                                onClick={(e) => e.preventDefault()}
+                                                aria-describedby="simple-form-name-02"
+                                                className={styles.formGroupLabelHelp}
+                                              >
+                                                <HelpIcon />
+                                              </button>
+                                            </Popover>
+                                          }>
                                         <TextArea
                                             value={prompt}
                                             id="prompt"
@@ -179,7 +208,34 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                             onChange={handlePromptChange}
                                         />
                                     </FormGroup>
-                                    <FormGroup label="Size" fieldId="size">
+                                    <FormGroup
+                                        label="Size"
+                                        fieldId="size"
+                                        labelIcon={
+                                            <Popover
+                                              headerContent={
+                                                <div>
+                                                  The size of the image to generate.
+                                                </div>
+                                              }
+                                              bodyContent={
+                                                <div>
+                                                    <p>SDXL can only generate images of predefined sizes.</p>
+                                                    <p>Select one.</p>
+                                                </div>
+                                              }
+                                            >
+                                              <button
+                                                type="button"
+                                                aria-label="More info for name field"
+                                                onClick={(e) => e.preventDefault()}
+                                                aria-describedby="simple-form-name-02"
+                                                className={styles.formGroupLabelHelp}
+                                              >
+                                                <HelpIcon />
+                                              </button>
+                                            </Popover>
+                                          }>
                                         <FormSelect
                                             value={sizeOption}
                                             id="size"
@@ -192,7 +248,34 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                             ))}
                                             </FormSelect>
                                     </FormGroup>
-                                    <FormGroup label="Guidance Scale" fieldId="guidance_scale">
+                                    <FormGroup 
+                                        label={`Guidance Scale: ${guidance_scale}`}
+                                        fieldId="guidance_scale"
+                                        labelIcon={
+                                            <Popover
+                                              bodyContent={
+                                                <div>
+                                                    <p><b>Guidance scale</b> is a parameter that controls the balance between adhering to the provided text prompt and the inherent "creativity" or randomness of the model.</p>
+                                                    <p>
+                                                        <ul>
+                                                            <li><b>Low guidance scale</b>: The model has more creative freedom, and the resulting image may not closely match the prompt but can introduce unexpected details.</li>
+                                                            <li><b>High guidance scale</b>: The model is more constrained by the prompt, leading to images that align more strictly with the given description but may be less varied or imaginative.</li>
+                                                        </ul>
+                                                        </p>
+                                                    </div>
+                                              }
+                                            >
+                                              <button
+                                                type="button"
+                                                aria-label="More info for name field"
+                                                onClick={(e) => e.preventDefault()}
+                                                aria-describedby="simple-form-name-02"
+                                                className={styles.formGroupLabelHelp}
+                                              >
+                                                <HelpIcon />
+                                              </button>
+                                            </Popover>
+                                          }>
                                         <Slider
                                             id="guidance_scale"
                                             value={guidance_scale}
@@ -201,10 +284,42 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                             hasTooltipOverThumb
                                             min={0}
                                             max={20}
-                                            step={0.25}
+                                            step={0.5}
                                         />
                                     </FormGroup>
-                                    <FormGroup label="Number of Inference Steps" fieldId="num_inference_steps">
+                                    <FormGroup
+                                        label={`Number of Inference Steps: ${num_inference_steps}`}
+                                        fieldId="num_inference_steps"
+                                        labelIcon={
+                                            <Popover
+                                              bodyContent={
+                                                <div>
+                                                    <p>
+                                                        <b>Number of inference steps</b> is a parameter that controls the number of steps the model takes to generate an image.
+                                                    </p>
+                                                    <p>
+                                                        <ul>
+                                                            <li><b>Low number of inference steps</b>: The model generates images more quickly but may produce lower-quality results.</li>
+                                                            <li><b>High number of inference steps</b>: The model generates images more slowly but may produce higher-quality results.</li>
+                                                        </ul>
+                                                    </p>
+                                                    <p>
+                                                        A minimum of <b>30 steps</b> is recommended for high-quality results.
+                                                    </p>                                            
+                                                </div>
+                                              }
+                                            >
+                                              <button
+                                                type="button"
+                                                aria-label="More info for name field"
+                                                onClick={(e) => e.preventDefault()}
+                                                aria-describedby="simple-form-name-02"
+                                                className={styles.formGroupLabelHelp}
+                                              >
+                                                <HelpIcon />
+                                              </button>
+                                            </Popover>
+                                          }>
                                         <Slider
                                             id="num_inference_steps"
                                             value={num_inference_steps}
@@ -216,7 +331,36 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                             step={1}
                                         />
                                     </FormGroup>
-                                    <FormGroup label="Denoising Limit (%)" fieldId="denoising_limit">
+                                    <FormGroup
+                                        label={`Denoising Limit: ${denoising_limit} %`}
+                                        fieldId="denoising_limit"
+                                        labelIcon={
+                                            <Popover
+                                              bodyContent={
+                                                <div>
+                                                    <p>
+                                                        Stable Diffusion XL uses two models: a diffusion model to generate the image and a denoising model to refine it.
+                                                    </p>
+                                                    <p>
+                                                        The <b>denoising limit</b> parameter controls when the generation model passes over to the refining model.
+                                                    </p>
+                                                    <p>
+                                                        With 40 steps and a denoising limit at 80%, 32 steps will be used for generation, and 8 for refinement.
+                                                    </p>
+                                                </div>
+                                              }
+                                            >
+                                              <button
+                                                type="button"
+                                                aria-label="More info for name field"
+                                                onClick={(e) => e.preventDefault()}
+                                                aria-describedby="simple-form-name-02"
+                                                className={styles.formGroupLabelHelp}
+                                              >
+                                                <HelpIcon />
+                                              </button>
+                                            </Popover>
+                                          }>
                                         <Slider
                                             id="denoising_limit"
                                             value={denoising_limit}
