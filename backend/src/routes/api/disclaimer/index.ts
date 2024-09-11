@@ -12,7 +12,7 @@ export default async (fastify: FastifyInstance): Promise<void> => {
   fastify.get('/', async (req: FastifyRequest, reply: FastifyReply) => {
     try {
       const configFile = await fs.promises.readFile(
-        '/opt/app-root/src/.local/share/odh-tec/config',
+        '/opt/app-root/src/.local/share/sdxl-ministudio/config',
         'utf-8',
       );
       const odhTecConfig: OdhTecConfig = JSON.parse(configFile);
@@ -30,7 +30,7 @@ export default async (fastify: FastifyInstance): Promise<void> => {
 
   fastify.put('/', async (req: FastifyRequest, reply: FastifyReply) => {
     const { status } = req.body as any;
-    const configFilePath = '/opt/app-root/src/.local/share/odh-tec/config';
+    const configFilePath = '/opt/app-root/src/.local/share/sdxl-ministudio/config';
     let odhTecConfig: OdhTecConfig = {};
 
     try {

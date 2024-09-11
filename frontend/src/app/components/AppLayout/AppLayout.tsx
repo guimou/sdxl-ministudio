@@ -461,7 +461,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         <MastheadBrand>
           <Brand src={logo} alt="Patternfly Logo" heights={{ default: '36px' }} />
           <TextContent>
-            <Text component={TextVariants.h2} className='title-text'>SDXL Mini Studio</Text>
+            <Text component={TextVariants.h2} className='title-text'>Stable Diffusion XL Mini Studio</Text>
           </TextContent>
         </MastheadBrand>
       </MastheadMain>
@@ -545,7 +545,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         <TextContent>
           <Text component={TextVariants.p}>
             This application is provided "as is" under a MIT licence, without any warranty of any kind.<br />
-            Please refer to the <a href='https://github.com/opendatahub-io-contrib/odh-tec/blob/main/LICENSE' target='_blank'>license file</a> for more details
+            Please refer to the <a href='https://github.com/guimou/sdxl-ministudio/blob/main/LICENSE' target='_blank'>license file</a> for more details
           </Text>
         </TextContent>
       </Modal>

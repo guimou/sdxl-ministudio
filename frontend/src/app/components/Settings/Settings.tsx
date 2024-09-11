@@ -8,7 +8,7 @@ import { Tabs, Tab, TabTitleText } from '@patternfly/react-core';
 import { EyeIcon } from '@patternfly/react-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBucket } from '@fortawesome/free-solid-svg-icons';
-import HfLogo from '@app/assets/bgimages/hf-logo.svg';
+import SDLogo from '@app/assets/images/Stable_Diffusion_Logo.png';
 
 interface SettingsProps { }
 
@@ -112,7 +112,7 @@ const SettingsManagement: React.FunctionComponent<SettingsProps> = () => {
                         title={
                             <>
                                 <TabTitleIcon>
-                                    <img className='tab-logo' src={HfLogo} alt="HuggingFace Logo" />
+                                    <img className='tab-logo' src={SDLogo} alt="HuggingFace Logo" />
                                 </TabTitleIcon>{' '}
                                 <TabTitleText>SDXL Endpoint Settings</TabTitleText>{' '}
                             </>
