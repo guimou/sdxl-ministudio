@@ -48,6 +48,7 @@ const SettingsManagement: React.FunctionComponent<SettingsProps> = () => {
         axios.get(`${config.backend_api_url}/settings/sdxl-endpoint`)
             .then((response) => {
                 const { settings } = response.data;
+                console.log(settings);
                 if (settings !== undefined) {
                     setEndpointSettings(new EndpointSettings(settings.endpointUrl, settings.endpointToken));
                 }
@@ -91,7 +92,7 @@ const SettingsManagement: React.FunctionComponent<SettingsProps> = () => {
             });
     }
 
-     /* Render */
+    /* Render */
 
     return (
         <Page className='buckets-list'>
@@ -119,13 +120,22 @@ const SettingsManagement: React.FunctionComponent<SettingsProps> = () => {
                         aria-label="SDXL Endpoint settings">
                         <Form onSubmit={handleSaveEndpointSettings}
                             className='settings-form'>
+                            <FormGroup label="URL" fieldId="url">
+                                <TextInput
+                                    className='form-settings-long'
+                                    value={endpointSettings.endpointUrl}
+                                    onChange={(_event, value) => handleEndpointChange(value, 'endpointUrl')}
+                                    id="endpointUrl"
+                                    name="endpointUrl"
+                                />
+                            </FormGroup>
                             <FormGroup label="Token" fieldId="token">
                                 <TextInputGroup className='form-settings'>
                                     <TextInputGroupMain
                                         value={endpointSettings.endpointToken}
-                                        onChange={(_event, value) => handleEndpointChange(value, 'hfToken')}
-                                        id="hfToken"
-                                        name="hfToken"
+                                        onChange={(_event, value) => handleEndpointChange(value, 'endpointToken')}
+                                        id="endpointToken"
+                                        name="endpointToken"
                                         type={showEndpointToken ? 'text' : 'password'}
                                     />
                                     <TextInputGroupUtilities>
