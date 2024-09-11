@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { getInferencingEndpoint } from '../../../utils/config';
+import { getSDXLEndpoint } from '../../../utils/config';
 
 export default async (fastify: FastifyInstance): Promise<void> => {
   fastify.post('/', async (req: FastifyRequest, reply: FastifyReply) => {
@@ -32,7 +32,7 @@ export default async (fastify: FastifyInstance): Promise<void> => {
 
       // Send a request to your server using axios
       const response = await axios.post(
-        getInferencingEndpoint() + '/v1/models/model:predict',
+        getSDXLEndpoint().sdxlEndpointURL + '/v1/models/model:predict',
         data,
       );
       const imgStr = response.data.predictions[0].image.b64;

@@ -1,13 +1,14 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
-import { getInferencingEndpoint } from '../../../utils/config';
+import { getSDXLEndpoint } from '../../../utils/config';
 
 export default async (fastify: FastifyInstance): Promise<void> => {
   // Retrieve endpoint settings
-  fastify.get('/inferencing_endpoint', async (req: FastifyRequest, reply: FastifyReply) => {
-    const hfToken = getInferencingEndpoint();
+  fastify.get('/sdxl-endpoint', async (req: FastifyRequest, reply: FastifyReply) => {
+    const { endpointUrl, endpointToken } = getSDXLEndpoint();
     const settings = {
-      hfToken: hfToken,
+      endpointUrl: endpointUrl,
+      endpointToken: endpointToken,
     };
     reply.send({ settings });
   });
