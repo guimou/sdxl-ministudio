@@ -21,7 +21,7 @@ class GenerateParameters {
     denoising_limit: number;
 
     constructor(
-        prompt: string = 'A beautiful landscape with a sunset',
+        prompt: string = '',
         guidance_scale: number = 8.0,
         num_inference_steps: number = 40,
         crops_coords_top_left: number[] = [0, 0],
@@ -41,12 +41,20 @@ class GenerateParameters {
 
 const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
 
+    const [documentRendererVisible, setDocumentRendererVisible] = React.useState(false);
+
     const [generateParameters, setGenerateParameters] = React.useState<GenerateParameters>(new GenerateParameters());
     const handleGenerateParametersChange = (value, field) => {
         setGenerateParameters(prevState => ({
             ...prevState,
             [field]: value,
         }));;
+    }
+
+    const [prompt, setPrompt] = React.useState('');
+    const handlePromptChange = (_event: React.FormEvent<HTMLTextAreaElement>, value: string) => {
+        setPrompt(value);
+        handleGenerateParametersChange(value, 'prompt');
     }
 
     const sizeOptions = [
@@ -117,6 +125,7 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
     const handleGenerateImage = (event) => {
         event.preventDefault();
         console.log('Generate image with prompt:', generateParameters.prompt);
+        setDocumentRendererVisible(true);
         Emitter.emit('notification', { variant: 'success', title: '', description: 'Generation started! Please wait...' });
         axios.post(`${config.backend_api_url}/generate`, generateParameters, { responseType: 'arraybuffer' })
             .then((response) => {
@@ -131,6 +140,19 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
             .catch((error) => {
                 Emitter.emit('notification', { variant: 'warning', title: '', description: 'Connection failed with the error: ' + error.response.data.message.Code });
             });
+    }
+
+    const handleReset = (event) => {
+        event.preventDefault();
+        setDocumentRendererVisible(false);
+        setGenerateParameters(new GenerateParameters());
+        setPrompt('');
+        setSizeOption('standard');
+        setGuidanceScale(8.0);
+        setNumInferenceSteps(40);
+        setDenoisingLimit(80);
+        setFileData('');
+        setFileName('');
     }
 
     return (
@@ -149,11 +171,12 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                 <Form onSubmit={handleGenerateImage}>
                                     <FormGroup label="Prompt" fieldId="prompt">
                                         <TextArea
+                                            value={prompt}
                                             id="prompt"
                                             name="prompt"
                                             aria-label="prompt"
                                             placeholder="Describe what you want to generate"
-                                            onChange={(_event, value) => handleGenerateParametersChange(value, 'prompt')}
+                                            onChange={handlePromptChange}
                                         />
                                     </FormGroup>
                                     <FormGroup label="Size" fieldId="size">
@@ -208,6 +231,7 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                                     </FormGroup>
                                     <ActionGroup>
                                         <Button type="submit" variant="primary">Generate the image</Button>
+                                        <Button variant="secondary" onClick={handleReset}>Reset</Button>
                                     </ActionGroup>
                                 </Form>
                             </CardBody>
@@ -217,7 +241,8 @@ const SDXLMiniStudio: React.FunctionComponent<SDXLMiniStudioProps> = () => {
                         <Card component="div">
                             <CardTitle>Generated Image</CardTitle>
                             <CardBody>
-                                <DocumentRenderer fileData={fileData} fileName={fileName} />
+                                {documentRendererVisible && <DocumentRenderer fileData={fileData} fileName={fileName} />}
+                                {!documentRendererVisible && <p>Enter the description of the image to generate in the prompt, adjust the parameters if you want, and click on <b>Generate the image</b>.</p>}
                             </CardBody>
                         </Card>
                     </FlexItem>

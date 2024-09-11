@@ -1,3 +1,4 @@
+import { Spinner } from '@patternfly/react-core';
 import * as React from 'react';
 
 type DocumentRendererProps = {
@@ -11,7 +12,11 @@ const DocumentRenderer: React.FC<DocumentRendererProps> = ({ fileData, fileName 
         const mimeType = extension === 'png' ? 'image/png' : `image/${extension}`;
         return <img src={`data:${mimeType};base64,${fileData}`} alt="image" />;
     } else {
-        return <p>Waiting for an image...</p>;
+        return <div>
+            <p>Please wait, your image is being generated. It should take 30 to 60 seconds...</p>
+            <p>&nbsp;</p>
+            <p style={{ textAlign: 'center' }}><Spinner size="xl" /></p>
+            </div>;
     }
 }
 
