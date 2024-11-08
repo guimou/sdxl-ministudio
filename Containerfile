@@ -20,21 +20,21 @@ FROM base as final
 
 USER 1001
 
-RUN mkdir -p /opt/app-root/bin/odh-tec && \
-    mkdir -p /opt/app-root/bin/odh-tec/backend && \
-    mkdir -p /opt/app-root/bin/odh-tec/frontend && \
-    chown -R 1001:0 /opt/app-root/bin/odh-tec && \
-    chmod -R ug+rwx /opt/app-root/bin/odh-tec
+RUN mkdir -p /opt/app-root/bin/sdxl-ministudio && \
+    mkdir -p /opt/app-root/bin/sdxl-ministudio/backend && \
+    mkdir -p /opt/app-root/bin/sdxl-ministudio/frontend && \
+    chown -R 1001:0 /opt/app-root/bin/sdxl-ministudio && \
+    chmod -R ug+rwx /opt/app-root/bin/sdxl-ministudio
 
-COPY --from=builder --chown=1001:0 /tmp/src/backend/package*.json /opt/app-root/bin/odh-tec/backend/
-COPY --from=builder --chown=1001:0 /tmp/src/frontend/package*.json /opt/app-root/bin/odh-tec/frontend/
+COPY --from=builder --chown=1001:0 /tmp/src/backend/package*.json /opt/app-root/bin/sdxl-ministudio/backend/
+COPY --from=builder --chown=1001:0 /tmp/src/frontend/package*.json /opt/app-root/bin/sdxl-ministudio/frontend/
 
-RUN npm install --production --prefix /opt/app-root/bin/odh-tec/backend/ && \
-    npm install --production --prefix /opt/app-root/bin/odh-tec/frontend/
+RUN npm install --production --prefix /opt/app-root/bin/sdxl-ministudio/backend/ && \
+    npm install --production --prefix /opt/app-root/bin/sdxl-ministudio/frontend/
 
-COPY --from=builder --chown=1001:0 /tmp/src/backend/dist /opt/app-root/bin/odh-tec/backend/dist
-COPY --from=builder --chown=1001:0 /tmp/src/frontend/dist /opt/app-root/bin/odh-tec/frontend/dist
+COPY --from=builder --chown=1001:0 /tmp/src/backend/dist /opt/app-root/bin/sdxl-ministudio/backend/dist
+COPY --from=builder --chown=1001:0 /tmp/src/frontend/dist /opt/app-root/bin/sdxl-ministudio/frontend/dist
 
 WORKDIR /opt/app-root/src
 
-CMD ["npm", "run", "start", "--prefix", "/opt/app-root/bin/odh-tec/backend/"]
+CMD ["npm", "run", "start", "--prefix", "/opt/app-root/bin/sdxl-ministudio/backend/"]

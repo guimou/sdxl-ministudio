@@ -1,7 +1,7 @@
 {
-  "name": "odh-tec",
-  "version": "1.1.2",
-  "description": "Open Data Hub Tools & Extensions Companion",
+  "name": "sdxl-ministudio",
+  "version": "0.0.1",
+  "description": "Open Data Hub SDXL Mini Studio",
   "author": "",
   "license": "MIT",
   "private": true,
