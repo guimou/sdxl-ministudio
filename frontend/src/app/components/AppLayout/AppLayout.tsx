@@ -1,5 +1,6 @@
 import config from '@app/config';
 import logo from '@app/assets/bgimages/odh-logo.svg';
+import parasolLogo from '@app/assets/bgimages/parasol-logo.svg';
 import { IAppRoute, IAppRouteGroup, routes } from '@app/routes';
 import {
   Alert,
@@ -65,6 +66,8 @@ interface IAppLayout {
 
 const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
 
+  const [parasolMode, setParasolMode] = React.useState(false);
+
   interface NotificationProps {
     title: string;
     srTitle: string;
@@ -76,6 +79,15 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   }
 
   React.useEffect(() => {
+    axios.get(`${config.backend_api_url}/settings/parasol-mode`)
+            .then((response) => {
+                setParasolMode(response.data.parasolMode === 'true');
+                console.log('Parasol mode: ' + parasolMode);
+            })
+            .catch((error) => {
+                console.error(error);
+                Emitter.emit('error', 'Failed to fetch configuration settings.');
+            });
 
     const handleNotification = (data) => {
       addNewNotification(data.variant, data.title, data.description);
@@ -459,7 +471,7 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
         </MastheadToggle>
       <MastheadMain>
         <MastheadBrand>
-          <Brand src={logo} alt="Patternfly Logo" heights={{ default: '36px' }} />
+          <Brand src={parasolMode?parasolLogo:logo} alt="Patternfly Logo" heights={{ default: '36px' }} />
           <TextContent>
             <Text component={TextVariants.h2} className='title-text'>Stable Diffusion XL Mini Studio</Text>
           </TextContent>

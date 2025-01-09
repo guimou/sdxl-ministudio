@@ -8,7 +8,7 @@ import { Tabs, Tab, TabTitleText } from '@patternfly/react-core';
 import { EyeIcon } from '@patternfly/react-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBucket } from '@fortawesome/free-solid-svg-icons';
-import SDLogo from '@app/assets/images/Stable_Diffusion_Logo.png';
+import SDLogo from '@app/assets/bgimages/stabilityai-logo.svg';
 
 interface SettingsProps { }
 
@@ -48,7 +48,6 @@ const SettingsManagement: React.FunctionComponent<SettingsProps> = () => {
         axios.get(`${config.backend_api_url}/settings/sdxl-endpoint`)
             .then((response) => {
                 const { settings } = response.data;
-                console.log(settings);
                 if (settings !== undefined) {
                     setEndpointSettings(new EndpointSettings(settings.endpointUrl, settings.endpointToken));
                 }
@@ -56,7 +55,7 @@ const SettingsManagement: React.FunctionComponent<SettingsProps> = () => {
             .catch((error) => {
                 console.error(error);
                 Emitter.emit('error', 'Failed to fetch configuration settings.');
-            });
+            })
     }, []);
 
     const handleEndpointChange = (value, field) => {

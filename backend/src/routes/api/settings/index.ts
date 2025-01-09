@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
-import { getSDXLEndpoint, setSDXLEndpoint } from '../../../utils/config';
+import { getSDXLEndpoint, setSDXLEndpoint, getParasolMode } from '../../../utils/config';
 import axios from 'axios';
 
 export default async (fastify: FastifyInstance): Promise<void> => {
@@ -41,5 +41,11 @@ export default async (fastify: FastifyInstance): Promise<void> => {
       console.log(error);
       reply.code(500).send({ message: error.response.data });
     }
+  });
+
+  // Get Parasol mode
+  fastify.get('/parasol-mode', async (req: FastifyRequest, reply: FastifyReply) => {
+    const parasolMode = getParasolMode();
+    reply.send({ parasolMode });
   });
 };
